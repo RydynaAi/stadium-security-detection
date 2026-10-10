@@ -1,15 +1,20 @@
-# Virtual environment
+.venv/
 venv/
 env/
 pyvenv.cfg
-
-# Python cache
 __pycache__/
 *.pyc
-
-# YOLO pretrained weights (downloaded automatically by ultralytics)
+.pytest_cache/
+.ruff_cache/
 *.pt
-
-# OS files
+*.pth
+*.onnx
+data/
+*.mp4
+*.mov
+*.avi
+*.mkv
+runs/
+.env
 .DS_Store
 Thumbs.db
