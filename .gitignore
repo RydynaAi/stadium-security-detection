@@ -1,0 +1,15 @@
+# Virtual environment
+venv/
+env/
+pyvenv.cfg
+
+# Python cache
+__pycache__/
+*.pyc
+
+# YOLO pretrained weights (downloaded automatically by ultralytics)
+*.pt
+
+# OS files
+.DS_Store
+Thumbs.db
