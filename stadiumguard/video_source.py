@@ -1,3 +1,4 @@
+import sys
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -18,7 +19,8 @@ class VideoSource:
         self.is_camera = source.isdigit()
         if not self.is_camera and not Path(source).is_file():
             raise FileNotFoundError(f"Video file not found: {source}")
-        self.capture = cv2.VideoCapture(int(source) if self.is_camera else source)
+        backend = cv2.CAP_DSHOW if self.is_camera and sys.platform == "win32" else cv2.CAP_ANY
+        self.capture = cv2.VideoCapture(int(source) if self.is_camera else source, backend)
         if not self.capture.isOpened():
             raise RuntimeError(f"Could not open video source: {source}")
         self.fps = self.capture.get(cv2.CAP_PROP_FPS) or 30.0
@@ -36,4 +38,3 @@ class VideoSource:
                 index += 1
         finally:
             self.capture.release()
-            
