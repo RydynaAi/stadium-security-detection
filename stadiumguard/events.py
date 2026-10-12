@@ -12,6 +12,7 @@ class Event:
     confidence: float
     timestamp: float
     frame_index: int
+    box: tuple | None = None
 
 
 class EventLog:
@@ -31,4 +32,3 @@ class EventLog:
             csv.writer(file).writerow(
                 [f"{event.timestamp:.3f}", event.event_type, f"{event.confidence:.2f}", snapshot.name]
             )
-            
