@@ -49,3 +49,22 @@ The thrown object detector ported from the original script finds no thrown objec
 ## Next
 
 Phase 2: improve the thrown object detector (blur, morphology, tracking across frames, cooldown on video time). First record 20 to 30 throws in varied conditions plus negative footage, with labeled time intervals.
+## Phase 2 progress (2026-10-13)
+
+- Added `stadiumguard/evaluation.py`: precision, recall, F1, false alarms per minute and mean delay. Checked against numbers computed by hand on two synthetic cases, including the case with zero alerts.
+- Added `stadiumguard/annotations.py` and the annotation format: `data/annotations/<set>.csv` with columns `video,event_type,start_s,end_s`. Negative clips are not listed, and their duration is read from the video.
+- Added `evaluate.py` in the repository root. It runs the real package over every clip in a folder without a window, reads the alert logs, and prints the metrics together with the thresholds used.
+- The alert matching tolerance defaults to 1.0 second. It is a placeholder decision, not a measured value. Fix it after the real clips are recorded.
+- The original `evaluate.py` was not found, so this one is new.
+
+## Baseline (before any Phase 2 change)
+
+Command: `python evaluate.py --videos data/dev --annotations data/annotations/dev.csv`
+
+Thresholds: motion_threshold 25, motion_min_area 1500, cooldown 3.0 s, person confidence 0.25.
+
+Result on `test_01.mp4` (one clip, one annotated throw): events 1, detected 0, alerts 0, false alarms 0, recall 0.0, precision and F1 not defined. The end time 5.6 s in `dev.csv` is a guess, but it does not matter here because there are no alerts. This is one clip, so it is not a performance claim.
+
+## Next
+
+Record the Phase 2 clips (throws with labeled times plus negative footage, uncompressed, landscape, good light), then run the first experiment: blur and morphology. Compare against the baseline above with the same command.
