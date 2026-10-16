@@ -1,4 +1,4 @@
-import argparse
+﻿import argparse
 from pathlib import Path
 
 import cv2
@@ -31,7 +31,11 @@ def draw_event(canvas, event):
 
 def run(config):
     people_detector = PersonDetector(config.model_path, config.person_confidence)
-    detectors = [ThrownObjectDetector(config.motion_threshold, config.motion_min_area)]
+    detectors = [
+        ThrownObjectDetector(
+            config.motion_threshold, config.motion_min_area, config.blur_kernel, config.morph_kernel
+        )
+    ]
     log = EventLog(config.output_dir)
     alerts = AlertManager(log, config.alert_cooldown_seconds)
     print(f"Logging to {log.directory}")

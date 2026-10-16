@@ -80,3 +80,15 @@ Data: 5 clips with one annotated throw each (`throw_001` to `throw_005`) and 4 c
 Result: events 5, detected 4, alerts 10, false alarms 6, precision 0.4, recall 0.8, F1 0.533, false alarms per minute 6.699, mean delay 0.127 s.
 
 This is a baseline for the original detector, not a performance claim. The sample is tiny. `neg_001` to `neg_003` may show the same scene recorded more than once.
+
+## Phase 2 experiment 1: blur and morphological closing (2026-10-16)
+
+Change: Gaussian blur kernel 5 before the frame difference, and a morphological closing with an elliptical kernel 5 after the threshold. Everything else is unchanged, including the person overlap rule and the area threshold 1500.
+
+Result on the nine development clips: events 5, detected 4, alerts 10, false alarms 6, precision 0.4, recall 0.8, F1 0.533, false alarms per minute 6.699. The numbers are identical to the baseline. No measurable improvement.
+
+The `throw_002` annotation was changed from 5.1 to 5.3 into 5.2 to 5.5 after rechecking it in a video player. The mean delay moved from 0.127 s to 0.056 s, but the two values are not comparable because the annotation changed.
+
+Observation: false alarms in `throw_003`, `throw_004` and `throw_005` fall in the first two seconds, before the annotated throw. The snapshot of the alert at 0.52 s in `throw_005` shows the red box on the can, so it is real motion of the object, not sensor noise. The cause is not known.
+
+This is experiment 1 of 2 for this module.
