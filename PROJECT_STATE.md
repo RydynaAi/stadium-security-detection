@@ -68,3 +68,15 @@ Result on `test_01.mp4` (one clip, one annotated throw): events 1, detected 0, a
 ## Next
 
 Record the Phase 2 clips (throws with labeled times plus negative footage, uncompressed, landscape, good light), then run the first experiment: blur and morphology. Compare against the baseline above with the same command.
+
+## Phase 2 baseline on the real development clips (2026-10-16)
+
+Command: `python evaluate.py --videos data/dev --annotations data/annotations/dev.csv`
+
+Thresholds: motion_threshold 25, motion_min_area 1500, cooldown 3.0 s, person confidence 0.25, tolerance 1.0 s.
+
+Data: 5 clips with one annotated throw each (`throw_001` to `throw_005`) and 4 clips without a throw (`neg_001` to `neg_004`). All are iPhone clips, 1080x1920, about 60 fps, 4 to 7.4 seconds each. Annotated times are estimates read from frame grids at 0.1 to 0.4 second spacing.
+
+Result: events 5, detected 4, alerts 10, false alarms 6, precision 0.4, recall 0.8, F1 0.533, false alarms per minute 6.699, mean delay 0.127 s.
+
+This is a baseline for the original detector, not a performance claim. The sample is tiny. `neg_001` to `neg_003` may show the same scene recorded more than once.
