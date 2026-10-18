@@ -92,3 +92,17 @@ The `throw_002` annotation was changed from 5.1 to 5.3 into 5.2 to 5.5 after rec
 Observation: false alarms in `throw_003`, `throw_004` and `throw_005` fall in the first two seconds, before the annotated throw. The snapshot of the alert at 0.52 s in `throw_005` shows the red box on the can, so it is real motion of the object, not sensor noise. The cause is not known.
 
 This is experiment 1 of 2 for this module.
+
+## Phase 2 experiment 2: tracking across frames (2026-10-17)
+
+Change: on top of the blur and closing from experiment 1, motion regions are tracked across frames. An alert needs 3 matched frames and a speed of at least 500 pixels per second. The start values were my choice, not measured. The person overlap rule is unchanged.
+
+Result on the nine development clips: events 5, detected 3, alerts 8, false alarms 5, precision 0.375, recall 0.6, F1 0.462, false alarms per minute 5.582, mean delay -0.031 s.
+
+Compared with the baseline: one more throw was missed and only one false alarm was removed. The tracking did not separate a can moved by hand from a thrown one with these values. The negative mean delay means some alerts came before the annotated start, which fits annotations estimated to 0.1 to 0.4 seconds.
+
+Decision: after two experiments there is no measured improvement, so the module ships as experimental with the baseline settings. Blur, closing and tracking stay in the code but are disabled by default (kernel sizes 0, track_min_frames 0). No other tracking values were tried, to avoid tuning on the same clips.
+
+Baseline re-run with the options disabled gives the same numbers as the first baseline: detected 4 of 5, alerts 10, false alarms 6, precision 0.4, recall 0.8, F1 0.533, false alarms per minute 6.699, mean delay 0.102 s on the updated annotations.
+
+Known cause of false alarms from three alert snapshots: the can itself moving before the throw (throw_003, throw_005), and a leg outside the person box (throw_004). One snapshot per clip is a very small sample.

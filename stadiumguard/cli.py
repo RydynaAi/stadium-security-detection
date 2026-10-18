@@ -33,7 +33,8 @@ def run(config):
     people_detector = PersonDetector(config.model_path, config.person_confidence)
     detectors = [
         ThrownObjectDetector(
-            config.motion_threshold, config.motion_min_area, config.blur_kernel, config.morph_kernel
+            config.motion_threshold, config.motion_min_area, config.blur_kernel, config.morph_kernel,
+            config.track_min_frames, config.track_min_speed, config.track_max_distance, config.track_max_gap,
         )
     ]
     log = EventLog(config.output_dir)
