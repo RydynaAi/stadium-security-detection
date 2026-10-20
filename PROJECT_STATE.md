@@ -106,3 +106,12 @@ Decision: after two experiments there is no measured improvement, so the module 
 Baseline re-run with the options disabled gives the same numbers as the first baseline: detected 4 of 5, alerts 10, false alarms 6, precision 0.4, recall 0.8, F1 0.533, false alarms per minute 6.699, mean delay 0.102 s on the updated annotations.
 
 Known cause of false alarms from three alert snapshots: the can itself moving before the throw (throw_003, throw_005), and a leg outside the person box (throw_004). One snapshot per clip is a very small sample.
+
+## Phase 3: tests and CI (2026-10-20)
+
+- Added a pytest suite in `tests/` with 19 tests that need no camera, no YOLO model and no video: metrics (`evaluation.py`), reading of annotations and alert logs, cooldown per event type, event log with snapshots, and the thrown object detector on synthetic frames including the optional blur, closing and tracking.
+- Added `requirements-dev.txt` (includes `requirements.txt` and pytest 9.1.1) and the workflow `.github/workflows/tests.yml` (Python 3.12 on Ubuntu, CPU PyTorch, `opencv-python-headless`).
+- First CI run failed: the workflow and `requirements.txt` used `opencv-python==5.0.0`, which is the value of `cv2.__version__`, not the package version on PyPI (`5.0.0.93`). The problem was found in the CI log, not locally. Fixed in both files, then checked with a clean install of `requirements-dev.txt` in a fresh environment on Windows, and the CI run on the fixed commit passed.
+- Local result: 19 passed.
+
+Lesson recorded: pin package versions from `pip show`, not from the module version.
